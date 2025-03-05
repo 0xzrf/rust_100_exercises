@@ -13,8 +13,71 @@
 // tests can't access private or `pub(crate)` items.
 
 
-struct Order {
+pub struct Order {
     pub product_name: String,
     pub quantity: u32,
     pub unit_price: u32
+}
+
+
+impl Order {
+    pub fn new(product_name: String, quantity: u32, unit_price: u32) -> Order {
+        Order::quantity_check(quantity);
+        Order::unit_price_check(unit_price);
+        Order::product_name_check(&product_name);
+
+
+        Order {product_name, quantity, unit_price}
+        
+    }
+
+    pub fn total(&self) -> u32  {
+        self.quantity * self.unit_price
+    }
+
+    fn product_name_check(product_name: &String) {
+        if product_name.is_empty() || product_name.len() > 300 {
+            panic!("Invalid product name")
+        }
+    }
+
+    fn quantity_check(quantity: u32) {
+        if quantity <= 0 {
+            panic!("Quantity must be greater than zero")
+        }
+    }
+
+    fn unit_price_check(unit_price: u32) {
+        if unit_price <= 0 {
+            panic!("Quantity must be greater than zero")
+        }
+    }
+
+    pub fn product_name(&self) -> &String {
+
+        &self.product_name
+    }
+
+    pub fn quantity(&self) -> &u32 {
+        &self.quantity
+    }
+
+    pub fn unit_price(&self) -> &u32 {
+        &self.unit_price
+    }
+
+    pub fn set_product_name(&mut self, product_name: String) {
+
+        self.product_name = product_name;
+    }
+
+    pub fn set_quantity(&mut self, quantity: u32) {
+        self.quantity = quantity
+    }
+
+    pub fn set_unit_price(&mut self, unit_price: u32) {
+        self.unit_price = unit_price;
+    }
+
+
 }
